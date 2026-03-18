@@ -1,0 +1,200 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Pico Panda",
+    "scopeName": "source.ppd",
+    "fileTypes": ["ppd"],
+    "patterns": [
+        { "include": "#comment" },
+        { "include": "#preprocessor" },
+        { "include": "#annotation" },
+        { "include": "#string" },
+        { "include": "#number" },
+        { "include": "#function-decl" },
+        { "include": "#data-decl" },
+        { "include": "#enum-decl" },
+        { "include": "#keyword-control" },
+        { "include": "#keyword-declaration" },
+        { "include": "#constant" },
+        { "include": "#type-builtin" },
+        { "include": "#operator" }
+    ],
+    "repository": {
+
+        "comment": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.ppd",
+                    "match": "//.*$"
+                },
+                {
+                    "name": "comment.block.ppd",
+                    "begin": "/\\*",
+                    "end": "\\*/",
+                    "beginCaptures": { "0": { "name": "punctuation.definition.comment.begin.ppd" } },
+                    "endCaptures":   { "0": { "name": "punctuation.definition.comment.end.ppd" } }
+                }
+            ]
+        },
+
+        "preprocessor": {
+            "patterns": [
+                {
+                    "comment": "#if <condition>",
+                    "name": "meta.preprocessor.ppd",
+                    "match": "^(#if)\\s+(.+)$",
+                    "captures": {
+                        "1": { "name": "keyword.control.preprocessor.ppd" },
+                        "2": { "name": "meta.preprocessor.expression.ppd" }
+                    }
+                },
+                {
+                    "comment": "#end",
+                    "name": "keyword.control.preprocessor.ppd",
+                    "match": "^#end\\b"
+                }
+            ]
+        },
+
+        "annotation": {
+            "patterns": [
+                {
+                    "comment": "@name(...) — annotation with arguments",
+                    "name": "meta.annotation.ppd",
+                    "begin": "(@)([a-zA-Z_]\\w*)(\\()",
+                    "end": "(\\))",
+                    "beginCaptures": {
+                        "1": { "name": "punctuation.definition.annotation.ppd" },
+                        "2": { "name": "entity.other.attribute-name.ppd" },
+                        "3": { "name": "punctuation.definition.annotation.ppd" }
+                    },
+                    "endCaptures": {
+                        "1": { "name": "punctuation.definition.annotation.ppd" }
+                    },
+                    "patterns": [
+                        { "include": "#string" },
+                        { "include": "#number" }
+                    ]
+                },
+                {
+                    "comment": "@name — bare annotation",
+                    "match": "(@)([a-zA-Z_]\\w*)",
+                    "captures": {
+                        "1": { "name": "punctuation.definition.annotation.ppd" },
+                        "2": { "name": "entity.other.attribute-name.ppd" }
+                    }
+                }
+            ]
+        },
+
+        "string": {
+            "name": "string.quoted.double.ppd",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+                {
+                    "name": "constant.character.escape.ppd",
+                    "match": "\\\\[nrt\\\\\"0]"
+                }
+            ]
+        },
+
+        "number": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.hex.ppd",
+                    "match": "\\b0[xX][0-9a-fA-F_]+"
+                },
+                {
+                    "name": "constant.numeric.float.ppd",
+                    "match": "\\b[0-9][0-9_]*\\.[0-9][0-9_]*\\b"
+                },
+                {
+                    "name": "constant.numeric.integer.ppd",
+                    "match": "\\b[0-9][0-9_]*\\b"
+                }
+            ]
+        },
+
+        "function-decl": {
+            "comment": "fun name(...) — highlight function name",
+            "match": "\\b(fun)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+            "captures": {
+                "1": { "name": "keyword.declaration.function.ppd" },
+                "2": { "name": "entity.name.function.ppd" }
+            }
+        },
+
+        "data-decl": {
+            "match": "\\b(data)\\s+([A-Z][a-zA-Z0-9_]*)",
+            "captures": {
+                "1": { "name": "keyword.declaration.struct.ppd" },
+                "2": { "name": "entity.name.type.ppd" }
+            }
+        },
+
+        "enum-decl": {
+            "match": "\\b(enum)\\s+([A-Z][a-zA-Z0-9_]*)",
+            "captures": {
+                "1": { "name": "keyword.declaration.enum.ppd" },
+                "2": { "name": "entity.name.type.enum.ppd" }
+            }
+        },
+
+        "keyword-control": {
+            "name": "keyword.control.ppd",
+            "match": "\\b(if|else|for|while|return|break|continue|match|in)\\b"
+        },
+
+        "keyword-declaration": {
+            "name": "keyword.declaration.ppd",
+            "match": "\\b(val|var|const|asm)\\b"
+        },
+
+        "constant": {
+            "patterns": [
+                {
+                    "name": "constant.language.boolean.ppd",
+                    "match": "\\b(true|false)\\b"
+                }
+            ]
+        },
+
+        "type-builtin": {
+            "name": "storage.type.ppd",
+            "match": "\\b(int|fixed|string|bool)\\b"
+        },
+
+        "operator": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.range.ppd",
+                    "match": "\\.\\."
+                },
+                {
+                    "name": "keyword.operator.assignment.ppd",
+                    "match": "\\+=|-=|\\*=|/=|%=|="
+                },
+                {
+                    "name": "keyword.operator.comparison.ppd",
+                    "match": "==|!=|<=|>=|<|>"
+                },
+                {
+                    "name": "keyword.operator.logical.ppd",
+                    "match": "&&|\\|\\||!"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.ppd",
+                    "match": "\\+|-|\\*|/|%"
+                },
+                {
+                    "name": "punctuation.separator.colon.ppd",
+                    "match": ":"
+                },
+                {
+                    "name": "punctuation.separator.comma.ppd",
+                    "match": ","
+                }
+            ]
+        }
+    }
+}

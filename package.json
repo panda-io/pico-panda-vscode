@@ -1,0 +1,79 @@
+{
+    "name": "pico-panda",
+    "displayName": "Pico Panda",
+    "description": "Syntax highlighting and test runner for Pico Panda — a small scripting language for the Pico Panda VM",
+    "version": "0.1.0",
+    "publisher": "sang",
+    "engines": {
+        "vscode": "^1.74.0"
+    },
+    "categories": [
+        "Programming Languages",
+        "Testing"
+    ],
+    "main": "./out/extension.js",
+    "activationEvents": [
+        "onLanguage:pico-panda",
+        "workspaceContains:**/*_test.ppd"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "pico-panda",
+            "aliases": ["Pico Panda", "ppd"],
+            "extensions": [".ppd"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "pico-panda",
+            "scopeName": "source.ppd",
+            "path": "./syntaxes/pico-panda.tmLanguage.json"
+        }],
+        "snippets": [{
+            "language": "pico-panda",
+            "path": "./snippets/pico-panda.json"
+        }],
+        "problemMatchers": [{
+            "name": "ppd",
+            "owner": "pico-panda",
+            "fileLocation": "absolute",
+            "pattern": {
+                "regexp": "^(.+):(\\d+):(\\d+): error: (.+)$",
+                "file": 1,
+                "line": 2,
+                "column": 3,
+                "message": 4
+            }
+        }],
+        "commands": [
+            {
+                "command": "picoPanda.compile",
+                "title": "Compile",
+                "category": "Pico Panda"
+            },
+            {
+                "command": "picoPanda.run",
+                "title": "Run",
+                "category": "Pico Panda"
+            }
+        ],
+        "configuration": {
+            "title": "Pico Panda",
+            "properties": {
+                "picoPanda.ppdPath": {
+                    "type": "string",
+                    "default": "ppd",
+                    "description": "Path to the ppd compiler executable. Defaults to 'ppd' (must be on PATH)."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@types/vscode": "^1.74.0",
+        "typescript": "^5.0.0"
+    }
+}
