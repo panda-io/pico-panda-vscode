@@ -38,18 +38,28 @@
     "signal handler": {
         "prefix": "signal",
         "body": [
-            "@signal(${1:SIGNAL_APP_START})",
+            "signal(${1:SIGNAL_SYS_START})",
             "fun ${2:on_start}()",
             "\t${0}"
         ],
         "description": "Signal handler function"
     },
 
+    "tick handler": {
+        "prefix": "tick",
+        "body": [
+            "tick(${1:1})",
+            "fun ${2:on_tick}()",
+            "\t${0}"
+        ],
+        "description": "Tick handler function"
+    },
+
     "interval handler": {
         "prefix": "interval",
         "body": [
-            "@interval(${1:SIGNAL_TICK}, ${2:100})",
-            "fun ${3:on_timer}()",
+            "interval(${1:100})",
+            "fun ${2:on_timer}()",
             "\t${0}"
         ],
         "description": "Interval timer handler"
